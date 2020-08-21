@@ -41,9 +41,42 @@ async function addMember() {
     }
 }
 //addEngineer -> addMember
-//addIntern -> addMember
-//buildTeam
+async function addEngineer() {
+    const engineerAnswers = await inquirer.prompt(prompts.engineer);
 
+    const engineer = new Engineer(
+        engineerAnswers.engineerName,
+        engineerAnswers.engineerID,
+        engineerAnswers.engineerEmail,
+        engineerAnswers.engineerGitHub
+    )
+
+    teamArray.push(engineer);
+    addMember();
+}
+//addIntern -> addMember
+async function addIntern() {
+    const internAnswers = await inquirer.prompt(prompts.intern);
+
+    const intern = new Intern(
+        internAnswers.internName,
+        internAnswers.internID,
+        internAnswers.internEmail,
+        internAnswers.internSchool
+    )
+
+    teamArray.push(intern);
+    addMember();
+}
+
+//buildTeam
+async function buildTeam() {
+    fs.writeFile(outputPath, render(teamArray), function(err) {
+        if (err)
+            throw err;
+    });
+}
+init();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
